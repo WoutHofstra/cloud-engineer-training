@@ -33,7 +33,7 @@ resource "azurerm_subnet" "workload" {
 }
 
 resource "azurerm_subnet" "bastion" {
-  name = "subnet-azurelab-bastion"
+  name = "AzureBastionSubnet"
   resource_group_name = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes = ["10.0.2.0/24"]
@@ -79,43 +79,33 @@ resource "azurerm_network_interface" "main" {
   }
 }
 
-resource "azurerm_virtual_machine" "main" {
+resource "azurerm_linux_virtual_machine" "main" {
   name = "vm-azurelab-001"
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   network_interface_ids = [azurerm_network_interface.main.id]
-  vm_size = "Standard_B1s"
+  size = "Standard_B1s"
 
-  delete_data_disks_on_termination = true
-  delete_os_disk_on_termination = true
+  admin_username = "testadmin"
 
-  storage_image_reference {
+  admin_password = "Password1234!"
+  disable_password_authentication = false
+
+  source_image_reference {
     publisher = "Canonical"
     offer = "001-com-ubuntu-server-jammy"
     sku = "22_04-lts"
     version = "latest"
   }
 
-  storage_os_disk {
-    name = "disk-azurelab-001"
+  os_disk {
     caching = "ReadWrite"
-    create_option = "FromImage"
-    managed_disk_type = "Standard_LRS"
-  }
-
-  os_profile {
-    computer_name = "vm-name"
-    admin_username = "testadmin"
-    admin_password = "Password1234!"
-  }
-
-  os_profile_linux_config {
-    disable_password_authentication = false
+    storage_account_type = "Standard_LRS"
   }
 }
 
 resource "azurerm_public_ip" "main" {
-  name = "test-ip"
+  name = "pip-bastion-001"
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   allocation_method = "static"
