@@ -28,21 +28,21 @@ resource "azurerm_virtual_network" "main" {
 resource "azurerm_subnet" "workload" {
   name = "subnet-azurelab-vm"
   resource_group_name = azurerm_resource_group.main.name
-  virtual_network_name = azurerm_virtual_network.main
+  virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes = ["10.0.1.0/24"]
 }
 
 resource "azurerm_subnet" "bastion" {
   name = "subnet-azurelab-bastion"
   resource_group_name = azurerm_resource_group.main.name
-  virtual_network_name = azurerm_virtual_network.main
+  virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes = ["10.0.2.0/24"]
 }
 
 resource "azurerm_network_security_group" "workload" {
   name = "nsg-workload"
   location = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main
+  resource_group_name = azurerm_resource_group.main.name
 }
 
 resource "azurerm_network_security_rule" "allow_ssh" {
@@ -60,6 +60,11 @@ resource "azurerm_network_security_rule" "allow_ssh" {
 
   resource_group_name = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.workload.name
+}
+
+resource "azurerm_subnet_network_security_group_association" "main" {
+  subnet_id = azurerm_subnet.workload.id
+  network_security_group_id = azurerm_network_security_group.workload.id
 }
 
 resource "azurerm_network_interface" "main" {
