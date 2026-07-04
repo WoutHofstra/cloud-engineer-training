@@ -27,6 +27,7 @@ steps:
     azureSubscription: 'azure-resource-manager-connection'
     scriptType: bash
     scriptLocation: inlineScript
+    workingDirectory: $(System.DefaultWorkingDirectory)/project1-Azure-Lab
     inlineScript: |
       terraform init
       terraform plan
