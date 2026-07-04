@@ -36,7 +36,7 @@ resource "azurerm_subnet" "bastion" {
   name = "AzureBastionSubnet"
   resource_group_name = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes = ["10.0.2.0/24"]
+  address_prefixes = ["10.0.2.0/26"]
 }
 
 resource "azurerm_network_security_group" "workload" {
@@ -93,7 +93,7 @@ resource "azurerm_linux_virtual_machine" "main" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer = "001-com-ubuntu-server-jammy"
+    offer = "0001-com-ubuntu-server-jammy"
     sku = "22_04-lts"
     version = "latest"
   }
