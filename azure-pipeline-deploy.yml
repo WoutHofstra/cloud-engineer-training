@@ -31,7 +31,7 @@ steps:
 
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'YOUR-SERVICE-CONNECTION'
+    azureSubscription: 'azure-resource-manager-connection'
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
