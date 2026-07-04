@@ -46,7 +46,7 @@ resource "azurerm_network_security_group" "workload" {
 }
 
 resource "azurerm_network_security_rule" "allow_ssh" {
-  name = "Allow-SSH-From-Home"
+  name = "Allow-SSH-From-Bastion"
   priority = 100
   direction = "Inbound"
   access = "Allow"
@@ -55,7 +55,7 @@ resource "azurerm_network_security_rule" "allow_ssh" {
   source_port_range = "*"
   destination_port_range = "22"
 
-  source_address_prefix = "62.38.138.102/32"
+  source_address_prefix = "10.0.2.0/24"
   destination_address_prefix = "*"
 
   resource_group_name = azurerm_resource_group.main.name
