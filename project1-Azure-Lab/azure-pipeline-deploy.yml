@@ -36,6 +36,8 @@ steps:
     targetType: inline
     workingDirectory: $(System.DefaultWorkingDirectory)/project1-Azure-Lab
     script: |
+      export ARM_USE_OIDC=true
+
       terraform init
       terraform plan
       terraform apply -auto-approve
