@@ -91,7 +91,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   network_interface_ids = [azurerm_network_interface.main.id]
-  size = "Standard_B1s"
+  size = "Standard_D2als_v6"
 
   admin_username = "testadmin"
 
