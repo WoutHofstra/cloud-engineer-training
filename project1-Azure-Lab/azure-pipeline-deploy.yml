@@ -3,7 +3,7 @@ trigger: none
 pr: none
 
 schedules:
-  - cron: "0 4 * * 6"
+  - cron: "0 7 * * 6"
     displayName: Saturday deploy
     branches:
       include:
