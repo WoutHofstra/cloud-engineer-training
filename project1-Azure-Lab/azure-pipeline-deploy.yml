@@ -1,5 +1,14 @@
-trigger:
-- main
+trigger: none
+
+pr: none
+
+schedules:
+  - cron: "0 7 * * 6"
+    displayName: Saturday deploy
+    branches:
+      include:
+        - main
+    always: true
 
 pool:
   vmImage: ubuntu-latest
