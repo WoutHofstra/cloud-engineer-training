@@ -34,10 +34,16 @@ steps:
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'azure-resource-manager-connection'
+    addSpnToEnvironment: true
     scriptType: bash
     scriptLocation: inlineScript
     workingDirectory: $(System.DefaultWorkingDirectory)/project1-Azure-Lab
     inlineScript: |
+      export ARM_USE_OIDC=true
+      export ARM_CLIENT_ID=$servicePrincipalId
+      export ARM_TENANT_ID=$tenantId
+      export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+
       terraform init
       terraform plan
       terraform apply -auto-approve
