@@ -20,4 +20,5 @@ I have chosen these skills because I see that they are quite common in the Cloud
 
 ## What are my projects?
 
-**To be defined**
+### [Project 1 - Azure Lab](./project1-Azure-Lab/README.md)
+The goal of this first lab is to set up a Azure DevOps pipeline combined with some Terraform, that will deploy a Lab environment for myself automatically during the weekend. Based on this I can expand and learn further, without making much costs. during this project I will learn the basics of Terraform and Azure DevOps. 
