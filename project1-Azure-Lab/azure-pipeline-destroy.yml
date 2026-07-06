@@ -45,5 +45,7 @@ steps:
       export ARM_TENANT_ID=$(tenant_id)
       export ARM_SUBSCRIPTION_ID=$(sub_id)
 
+      export TF_VAR_allowed_ip_rdp="$(vpn_ip)"
+
       terraform init
       terraform destroy -auto-approve
