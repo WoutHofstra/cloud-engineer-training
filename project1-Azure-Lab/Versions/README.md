@@ -24,3 +24,19 @@ With those resources the following architecture is achieved:
 I will:
 * Remove Bastion, as I have noticed it is quite expensive for my budget
 * Make sure I can connect to the VM with RDP
+
+That way, these will be the used resources and architecture:
+
+* Resource group
+* Virtual network
+* Subnet for the VM
+* Subnet for bastion
+* NSG
+* Network Security Rule
+* Network Security Rule Association
+* Network Interface
+* Linux VM
+* Public IP
+* Bastion Host
+
+![image](../images/Screenshot%202026-07-07%20131027.png)
