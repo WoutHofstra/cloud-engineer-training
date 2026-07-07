@@ -1,5 +1,5 @@
-variable "allowed_ip_rdp" {
-  
+variable "allowed_ip_ssh" {
+  type = string
 }
 
 terraform {
@@ -58,7 +58,7 @@ resource "azurerm_network_security_group" "workload" {
 }
 
 resource "azurerm_network_security_rule" "allow_ssh" {
-  name = "Allow-SSH-From-Bastion"
+  name = "Allow-RDP-From-VPN"
   priority = 100
   direction = "Inbound"
   access = "Allow"
@@ -67,7 +67,7 @@ resource "azurerm_network_security_rule" "allow_ssh" {
   source_port_range = "*"
   destination_port_range = "22"
 
-  source_address_prefix = "10.0.2.0/24"
+  source_address_prefix = var.allowed_ip_ssh
   destination_address_prefix = "*"
 
   resource_group_name = azurerm_resource_group.main.name
@@ -88,6 +88,8 @@ resource "azurerm_network_interface" "main" {
     name = "ip-config-test-001"
     subnet_id = azurerm_subnet.workload.id
     private_ip_address_allocation = "Dynamic"
+
+    public_ip_address_id = azurerm_public_ip.main.id
   }
 }
 
