@@ -29,7 +29,7 @@ steps:
     azureSubscription: 'azure-resource-manager-connection'
     scriptType: bash
     scriptLocation: inlineScript
-    workingDirectory: $(System.DefaultWorkingDirectory)/project1-Azure-Lab
+    workingDirectory: $(System.DefaultWorkingDirectory)/project1-Azure-Lab/versions/V2
     inlineScript: |
       export ARM_USE_OIDC=true
       export ARM_CLIENT_ID=$(client_id)
@@ -40,4 +40,4 @@ steps:
       export TF_VAR_allowed_ip_ssh="$(vpn_ip)"
 
       terraform init 
-      terraform destroy -auto-approve mainv2.tf
+      terraform destroy -auto-approve
