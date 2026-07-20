@@ -29,7 +29,7 @@ steps:
     azureSubscription: 'azure-resource-manager-connection'
     scriptType: bash
     scriptLocation: inlineScript
-    workingDirectory: $(System.DefaultWorkingDirectory)/project1-Azure-Lab/versions/V2
+    workingDirectory: $(System.DefaultWorkingDirectory)/project1-Azure-Lab/Versions/V2
     inlineScript: |
       export ARM_USE_OIDC=true
       export ARM_CLIENT_ID=$(client_id)
