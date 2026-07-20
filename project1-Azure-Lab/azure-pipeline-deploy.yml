@@ -39,5 +39,5 @@ steps:
       export TF_VAR_allowed_ip_ssh="$(vpn_ip)"
 
       terraform init
-      terraform plan
-      terraform apply -auto-approve
+      terraform plan mainv2.tf
+      terraform apply -auto-approve mainv2.tf
