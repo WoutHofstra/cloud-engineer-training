@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pong-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pong-api
+
+  template:
+    metadata:
+      labels:
+        app: pong-api
+
+    spec:
+      containers:
+      - name: pong-api
+        image: acrcontainerlab07212026001.azurecr.io/pong-api:v1
+        ports:
+        - containerPort: 5000
+
+        env:
+        - name: API_PASSWORD
+          value: "supersecret"

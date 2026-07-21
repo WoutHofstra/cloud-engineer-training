@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pong-api-service
+
+spec:
+  type: LoadBalancer
+
+  selector:
+    app: pong-api
+
+  ports:
+  - port: 80
+    targetPort: 5000
