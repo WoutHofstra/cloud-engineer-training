@@ -39,3 +39,34 @@ steps:
       terraform init
       terraform plan
       terraform apply -auto-approve
+
+# log into ACR
+- task: AzureCLI@2
+  displayName: Login to ACR
+  inputs:
+    azureSubscription: 'azure-resource-manager-connection'
+    scriptType: bash
+    scriptLocation: inlineScript
+
+    inlineScript: |
+      az acr login --name acrcontainerlab07212026001
+
+
+# build docker image
+- task: Docker@2
+  displayName: build Docker image
+  inputs:
+    command: build
+    Dockerfile: $(System.DefaultWorkingDirectory)/project2-Containers-Kubernetes/V1/Dockerfile
+    tags: |
+      acrcontainerlab07212026001.azurecr.io/pong-api:v1
+
+- task: Docker@2
+  displayName: Push Docker image
+  inputs:
+    command: push
+    repository: pong-api
+    containerRegistry: 'acr-service-connection'
+    tags: |
+      v1
+
