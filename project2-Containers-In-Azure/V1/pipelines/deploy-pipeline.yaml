@@ -52,7 +52,7 @@ steps:
 
       docker build \
         -t pong-api \
-        $(System.DefaultWorkingDirectory)/project2-Containers-Kubernetes/V1
+        $(System.DefaultWorkingDirectory)/project2-Containers-In-Azure/V1
 
       docker tag \
         pong-api \
