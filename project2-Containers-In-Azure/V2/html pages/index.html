@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cloud Chat</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .auth {
+            display: flex;
+            gap: 40px;
+        }
+
+        .auth form {
+            flex: 1;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .message {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        .time {
+            color: #888;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+{% if username %}
+
+    <h1>Cloud Chat</h1>
+
+    <p>
+        Logged in as <strong>{{ username }}</strong>
+        |
+        <a href="/logout">Logout</a>
+    </p>
+
+{% else %}
+
+    <h1>Cloud Chat</h1>
+
+    <div class="auth">
+
+        <form method="POST" action="/login">
+
+            <h2>Login</h2>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+            >
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+
+        <form method="POST" action="/register">
+
+            <h2>Create account</h2>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+            >
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
+
+            <button type="submit">
+                Register
+            </button>
+
+        </form>
+
+    </div>
+
+{% endif %}
+
+</header>
+
+
+{% if username %}
+
+<form method="POST" action="/message">
+
+    <textarea
+        name="content"
+        rows="3"
+        placeholder="Write a message..."
+        required
+    ></textarea>
+
+    <button type="submit">
+        Send
+    </button>
+
+</form>
+
+{% endif %}
+
+
+<h2>Chat</h2>
+
+{% for message in messages %}
+
+<div class="message">
+
+    <span class="username">
+        {{ message.user.username }}
+    </span>
+
+    <span class="time">
+        {{ message.created_at }}
+    </span>
+
+    <p>
+        {{ message.content }}
+    </p>
+
+</div>
+
+{% else %}
+
+<p>No messages yet.</p>
+
+{% endfor %}
+
+</body>
+
+</html>
