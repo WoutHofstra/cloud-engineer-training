@@ -1,0 +1,63 @@
+trigger: none
+
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+
+- task: Bash@3
+  inputs:
+    targetType: inline
+    script: |
+      sudo apt-get update
+      sudo apt-get install -y unzip curl
+
+      TERRAFORM_VERSION="1.8.5"
+
+      curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+      unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+      sudo mv terraform /usr/local/bin/
+
+      terraform version
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'azure-resource-manager-connection'
+    scriptType: bash
+    scriptLocation: inlineScript
+    workingDirectory: $(System.DefaultWorkingDirectory)/project2-Containers-In-Azure/V1/terraform
+    inlineScript: |
+      export ARM_USE_OIDC=true
+      export ARM_CLIENT_ID=$(client_id)
+      export ARM_CLIENT_SECRET=$(client_secret)
+      export ARM_TENANT_ID=$(tenant_id)
+      export ARM_SUBSCRIPTION_ID=$(sub_id)
+
+      terraform init
+      terraform plan
+      terraform apply -auto-approve
+
+# log into ACR
+- task: AzureCLI@2
+  displayName: Build and push docker image
+  inputs:
+    azureSubscription: 'azure-resource-manager-connection'
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az acr login --name acrcontainerlab07212026001
+
+      docker build \
+        -t pong-api \
+        $(System.DefaultWorkingDirectory)/project2-Containers-In-Azure/V1
+
+      docker tag \
+        pong-api \
+        acrcontainerlab07212026001.azurecr.io/pong-api:v1
+
+      docker push \
+        acrcontainerlab07212026001.azurecr.io/pong-api:v1
+
